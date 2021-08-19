@@ -42,14 +42,6 @@ class RedditListAdapter : PagingDataAdapter<Children, RedditListAdapter.ChildVie
     }
 
 
-//    override fun getItemId(position: Int): Long {
-//        return position.toLong()
-//    }
-//
-//    override fun getItemViewType(position: Int): Int {
-//        return position
-//    }
-
     class ChildViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         private val title: TextView = itemView.findViewById(R.id.title)

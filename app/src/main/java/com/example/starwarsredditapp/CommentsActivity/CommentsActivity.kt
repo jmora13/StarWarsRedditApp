@@ -43,10 +43,21 @@ class CommentsActivity : AppCompatActivity() {
                     commentsViewModel.deleteComments()
                     val response = commentsViewModel.getComments(id!!)
                 //BIND THE IMAGE ASSOCIATED WITH THE REDDIT POST
-                if(response?.body()?.get(0)?.data?.children?.get(0)?.data?.preview!= null)
-                    bindMediaView(response?.body()?.get(0)?.data?.children?.get(0)?.data?.preview?.images?.get(0)?.source?.url!!, binding.mediaView)
+                if(response?.body()?.get(0)?.data?.children?.get(0)?.data?.preview!= null) {
+                    bindMediaView(
+                        response?.body()
+                            ?.get(0)?.data?.children?.get(0)?.data?.preview?.images?.get(0)?.source?.url!!,
+                        binding.mediaView
+                    )
+                    //IF PREVIEW DOESNT EXIST BUT THUMBNAIL DOES, BIND THUMBNAIL
+                } else if(response?.body()?.get(0)?.data?.children?.get(0)?.data?.thumbnail != null) {
+                    bindMediaView(
+                        response?.body()?.get(0)?.data?.children?.get(0)?.data?.thumbnail!!,
+                        binding.mediaView
+                    )
+                }
             } catch (e: IOException) {
-                Log.d("IOEXCEPTIONN", e.message.toString())
+                Log.d("IOEXCEPTION", e.message.toString())
                 return@launchWhenCreated
             } catch (e: HttpException) {
                 Log.d("HTTPEXCEPTION", e.stackTrace.toString())

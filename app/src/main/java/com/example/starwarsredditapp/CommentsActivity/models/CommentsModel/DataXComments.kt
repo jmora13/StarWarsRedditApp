@@ -18,4 +18,6 @@ data class DataXComments(
     val score: Int?,
     @JsonProperty("preview")
     val preview: Preview?,
+    @JsonProperty("thumbnail")
+    val thumbnail: String?,
 )

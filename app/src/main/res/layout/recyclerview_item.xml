@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:paddingLeft="5dp"
+    android:paddingRight="5dp"
+    android:paddingBottom="50dp">
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/redditItem"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="2dp"
+        android:layout_marginEnd="2dp"
+        android:elevation="5dp"
+        app:cardBackgroundColor="@color/black"
+        android:layout_marginStart="2dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/title"
+        android:textSize="25dp"
+        android:fontFamily="@font/franklin_gothic"
+        android:textColor="@color/star_wars_yellow_text"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+        <ImageView
+            android:id="@+id/thumbnail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_below="@+id/title"
+            android:paddingBottom="10dp"/>
+
+            <ImageView
+                android:id="@+id/arrow"
+                android:layout_width="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_baseline_arrow_upward_24"
+                android:layout_below="@+id/thumbnail"
+                android:layout_alignParentLeft="true"/>
+            <TextView
+                android:id="@+id/score"
+                android:layout_below="@id/thumbnail"
+                android:fontFamily="@font/franklin_gothic"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="5dp"
+                android:layout_toRightOf="@+id/arrow"
+                android:textSize="20dp"
+                android:textColor="@color/clone_red"
+                android:textColorHighlight="@android:color/holo_red_dark" />
+
+            <ImageView
+                android:id="@+id/numComments"
+                android:layout_width="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_baseline_question_answer_24"
+                android:layout_below="@+id/thumbnail"
+                android:layout_toRightOf="@id/score"/>
+
+            <TextView
+                android:id="@+id/comments"
+                android:paddingLeft="5dp"
+                android:layout_below="@id/thumbnail"
+                android:layout_toRightOf="@+id/numComments"
+                android:fontFamily="@font/franklin_gothic"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="20dp"
+                android:textColor="@color/light_saber_blue" />
+
+            <TextView
+                android:id="@+id/author"
+                android:paddingRight="5dp"
+                android:layout_below="@id/thumbnail"
+                android:fontFamily="@font/fg_reg"
+                android:textStyle="italic"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:textSize="20dp"
+                android:textColor="@android:color/darker_gray" />
+
+        </RelativeLayout>
+    </com.google.android.material.card.MaterialCardView>
+
+</LinearLayout>

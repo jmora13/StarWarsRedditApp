@@ -23,7 +23,7 @@ object DatabaseModule {
 
     @Provides
     @Singleton
-    fun provideRideDao(redditDatabase: RedditDatabase): RedditDao {
+    fun provideRedditDao(redditDatabase: RedditDatabase): RedditDao {
         return redditDatabase.redditDao()
     }
 

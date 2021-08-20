@@ -17,7 +17,7 @@ object NetworkModule {
     //RETROFIT INSTANCE SINGLETON
     @Provides
     @Singleton
-    fun provideForecastService(): RedditService {
+    fun provideStarWarsService(): RedditService {
         return Retrofit.Builder()
             .baseUrl("https://www.reddit.com/r/StarWars/")
             .callbackExecutor(Executors.newSingleThreadExecutor())

@@ -18,19 +18,18 @@ class CommentsRepository @Inject constructor(private val redditService: RedditSe
     }
 
 
-
     //NETWORK RESPONSE TO GET COMMENT RESPONSE
-    suspend fun getCommentResponse(id: String): Response<CommentsModel>? {
+    suspend fun getCommentResponse(id: String): Response<CommentsModel> {
         val response = redditService.getComments("$id.json")
 
-        //INSERT RIDES TO DATABASE
-        for(i in response.body()?.get(1)!!.data?.children?.indices!!){
-            insert(response.body()?.get(1)!!.data?.children?.get(i)!!)
+        //INSERT COMMENTS TO DATABASE
+        for(i in 0 until (response.body()?.get(1)?.data?.children?.size ?: 0)){
+            insert(response.body()?.get(1)?.data?.children?.get(i) ?: break)
         }
         return response
     }
 
-    suspend fun deleteComments() {
+     fun deleteComments() {
         commentsDao.deleteComments()
     }
 }

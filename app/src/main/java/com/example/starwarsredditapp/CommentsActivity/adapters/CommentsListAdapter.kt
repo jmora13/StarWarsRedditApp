@@ -35,7 +35,8 @@ class CommentsListAdapter : ListAdapter<CommentsChildren, CommentsListAdapter.Ch
 
         fun bind(child: CommentsChildren?) {
             comment.text = child?.data?.body
-            author.text = "u/" + child?.data?.author
+            var authorText = "u/" + child?.data?.author
+            author.text = authorText
             commentScore.text = child?.data?.score.toString()
         }
 

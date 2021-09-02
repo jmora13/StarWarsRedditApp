@@ -21,7 +21,7 @@ import com.example.starwarsredditapp.converters.Converters
     Children::class,
     DataX::class,
     CommentsChildren::class,
-    RemoteKeys::class ], version = 17, exportSchema = false)
+    RemoteKeys::class ], version = 19, exportSchema = false)
 @TypeConverters(Converters::class)
 abstract class RedditDatabase : RoomDatabase() {
 

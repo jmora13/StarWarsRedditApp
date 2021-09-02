@@ -6,7 +6,7 @@ import androidx.room.PrimaryKey
 @Entity
 data class RemoteKeys(
         @PrimaryKey
-        val redditId: Int,
-        val prevKey: Int?,
-        val nextKey: Int?
+        val redditId: String,
+        val prevKey: String?,
+        val nextKey: String?
 )

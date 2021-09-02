@@ -16,7 +16,7 @@ import javax.inject.Singleton
 
 @Singleton
 class RedditRepository @Inject constructor(private val redditService: RedditService,
-                                           private val redditDao: RedditDao,
+                                           private val remoteKeysDao: RemoteKeysDao,
                                            private val database: RedditDatabase,
                                            private val context: Context
 ) {
@@ -30,12 +30,13 @@ class RedditRepository @Inject constructor(private val redditService: RedditServ
             remoteMediator = RedditRemoteMediator(
                 redditService,
                 database,
+                remoteKeysDao
             ),
             pagingSourceFactory = pagingSourceFactory
         ).flow
     }
 
     companion object {
-        private const val NETWORK_PAGE_SIZE = 8
+        private const val NETWORK_PAGE_SIZE = 10
     }
 }

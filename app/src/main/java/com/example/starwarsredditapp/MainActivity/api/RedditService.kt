@@ -12,7 +12,10 @@ interface RedditService {
 
     //GET REDDIT LISTING
     @GET("hot.json")
-    suspend fun getList(@Query("limit") limit: Int): Response<RedditModel>
+    suspend fun getList(
+        @Query("limit") limit: Int,
+        @Query("after") after: String?,
+        @Query("count") count: Int?): Response<RedditModel>
 
     //GET COMMENTS WITH ID
     @GET("comments/{id}")

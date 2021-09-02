@@ -53,14 +53,11 @@ class RedditListAdapter : PagingDataAdapter<Children, RedditListAdapter.ChildVie
             title.text = child?.data?.title
             score.text = child?.data?.score.toString()
             numComments.text = child?.data?.numComments.toString()
-            author.text = "u/${child?.data?.author}"
-            Log.d("Is Preview Null", child?.data?.preview.toString() ?: "null")
+            val postAuthor = "u/${child?.data?.author}"
+            author.text = postAuthor
                 if(child?.data?.preview != null) {
-                    Log.d("Thumbnail Height", child?.data?.preview?.images?.get(0)?.resolutions?.get(2)?.url ?: "null")
-                    val url = child?.data?.preview?.images?.get(0)?.resolutions?.last()?.url
-                    Log.d("Precoded Url", url ?: "null")
+                    val url = child.data.preview.images[0].resolutions?.last()?.url
                     val encoded = url?.replace("amp;","", false)
-                    Log.d("Encoded Url", encoded ?: "null")
                     itemView.apply {
                         Glide.with(this)
                             .load(encoded)
@@ -74,9 +71,6 @@ class RedditListAdapter : PagingDataAdapter<Children, RedditListAdapter.ChildVie
                     }
                 }
         }
-
-
-
 
         companion object {
             fun create(parent: ViewGroup): ChildViewHolder {

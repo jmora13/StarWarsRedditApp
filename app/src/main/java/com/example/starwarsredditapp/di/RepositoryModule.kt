@@ -8,6 +8,7 @@ import com.example.starwarsredditapp.MainActivity.data.RedditDao
 import com.example.starwarsredditapp.MainActivity.data.RedditRepository
 import com.example.starwarsredditapp.CommentsActivity.data.CommentsDao
 import com.example.starwarsredditapp.CommentsActivity.data.CommentsRepository
+import com.example.starwarsredditapp.MainActivity.data.RemoteKeysDao
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -22,8 +23,8 @@ object RepositoryModule {
     //COMMENT REPOSITORY SINGLETON
     @Provides
     @ViewModelScoped
-    fun providesRepo(redditService: RedditService, redditDao: RedditDao, database: RedditDatabase, @ApplicationContext context: Context): RedditRepository {
-        return RedditRepository(redditService, redditDao, database, context)
+    fun providesRepo(redditService: RedditService, remoteKeysDao: RemoteKeysDao, database: RedditDatabase, @ApplicationContext context: Context): RedditRepository {
+        return RedditRepository(redditService, remoteKeysDao, database, context)
     }
 
     //COMMENT REPOSITORY SINGLETON

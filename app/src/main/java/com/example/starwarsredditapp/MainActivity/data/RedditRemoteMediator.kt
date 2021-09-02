@@ -11,30 +11,27 @@ import com.example.starwarsredditapp.MainActivity.models.RemoteKeys
 import com.example.starwarsredditapp.RedditDatabase
 import retrofit2.HttpException
 import java.io.IOException
-import java.util.*
-import javax.inject.Inject
+import java.io.InvalidObjectException
 
 
-private const val INITIAL_INDEX = 1
-private const val INITIAL_PAGE_LIMIT = 8
+private var count = 0
+private const val PAGE_LIMIT = 10
 
 
 @OptIn(ExperimentalPagingApi::class)
-class RedditRemoteMediator @Inject constructor(
+class RedditRemoteMediator (
     private val service: RedditService,
     private val database: RedditDatabase,
+    private val dao: RemoteKeysDao
 ) : RemoteMediator<Int, Children>() {
 
 
-    override suspend fun load(
-            loadType: LoadType,
-            state: PagingState<Int, Children>
-    ): MediatorResult {
+    override suspend fun load(loadType: LoadType, state: PagingState<Int, Children>): MediatorResult {
 
         val page = when (loadType) {
             LoadType.REFRESH -> {
                 val remoteKeys = getRemoteKeyClosestToCurrentPosition(state)
-                remoteKeys?.nextKey?.minus(1) ?: INITIAL_INDEX
+                remoteKeys?.prevKey.plus(1)
             }
             LoadType.PREPEND -> {
                 val remoteKeys = getRemoteKeyForFirstItem(state)
@@ -45,9 +42,11 @@ class RedditRemoteMediator @Inject constructor(
                 prevKey
             }
             LoadType.APPEND -> {
-                val remoteKeys = getRemoteKeyForLastItem(state)
-                if (remoteKeys?.nextKey == null) {
-                    return MediatorResult.Success(endOfPaginationReached = remoteKeys != null)
+                val remoteKeys = database.withTransaction {
+                    dao.allKeys().lastOrNull()
+                }
+                if (remoteKeys == null || remoteKeys.nextKey == null) {
+                    throw InvalidObjectException("Remote key should not be null for $loadType")
                 }
                 remoteKeys.nextKey
             }
@@ -55,7 +54,7 @@ class RedditRemoteMediator @Inject constructor(
 
 
         try {
-            val response = service.getList(INITIAL_PAGE_LIMIT)
+            val response = service.getList(PAGE_LIMIT, page, count)
             val redditList = response.body()?.data?.children
             val endOfPaginationReached = redditList?.isEmpty()
             database.withTransaction {
@@ -64,13 +63,14 @@ class RedditRemoteMediator @Inject constructor(
                     database.remoteKeysDao().clearRemoteKeys()
                     database.redditDao().clearChildren()
                 }
-                val prevKey = if (page == INITIAL_INDEX) null else page - 1
-                val nextKey = if (endOfPaginationReached!!) null else page + 1
+                val prevKey = if (page == null) null else response.body()?.data!!.before
+                val nextKey = if (endOfPaginationReached!!) null else response.body()?.data?.after
                 val keys = redditList.map {
-                    RemoteKeys(redditId = it.id, prevKey = prevKey, nextKey = nextKey)
+                    RemoteKeys(redditId = it.data.id, prevKey = prevKey, nextKey = nextKey)
                 }
                 database.remoteKeysDao().insertAll(keys)
                 database.redditDao().insertAll(redditList)
+                count += PAGE_LIMIT
             }
             return MediatorResult.Success(endOfPaginationReached = endOfPaginationReached!!)
         } catch (exception: IOException) {
@@ -80,18 +80,10 @@ class RedditRemoteMediator @Inject constructor(
         }
     }
 
-    private suspend fun getRemoteKeyForLastItem(state: PagingState<Int, Children>): RemoteKeys? {
-        return state.pages.lastOrNull() { it.data.isNotEmpty() }?.data?.lastOrNull()
-                ?.let { redditItem ->
-                    database.remoteKeysDao().remoteKeysRedditId(redditItem.id)
-                }
-    }
-
     private suspend fun getRemoteKeyForFirstItem(state: PagingState<Int, Children>): RemoteKeys? {
-
         return state.pages.firstOrNull { it.data.isNotEmpty() }?.data?.firstOrNull()
                 ?.let { redditItem ->
-                    database.remoteKeysDao().remoteKeysRedditId(redditItem.id)
+                    database.remoteKeysDao().remoteKeysRedditId(redditItem.data.id)
                 }
     }
 
@@ -99,7 +91,7 @@ class RedditRemoteMediator @Inject constructor(
             state: PagingState<Int, Children>
     ): RemoteKeys? {
         return state.anchorPosition?.let { position ->
-            state.closestItemToPosition(position)?.id?.let { redditId ->
+            state.closestItemToPosition(position)?.data?.id?.let { redditId ->
                 database.remoteKeysDao().remoteKeysRedditId(redditId)
             }
         }

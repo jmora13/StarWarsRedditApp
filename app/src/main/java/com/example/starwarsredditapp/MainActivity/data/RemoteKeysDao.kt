@@ -13,7 +13,10 @@ interface RemoteKeysDao {
     fun insertAll(remoteKey: List<RemoteKeys>)
 
     @Query("SELECT * FROM RemoteKeys WHERE redditId = :redditId")
-    suspend fun remoteKeysRedditId(redditId: Int): RemoteKeys?
+    suspend fun remoteKeysRedditId(redditId: String): RemoteKeys?
+
+    @Query("SELECT * FROM RemoteKeys")
+    suspend fun allKeys(): List<RemoteKeys?>
 
     @Query("DELETE FROM RemoteKeys")
     suspend fun clearRemoteKeys()

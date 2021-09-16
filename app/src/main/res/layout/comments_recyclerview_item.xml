@@ -18,53 +18,56 @@
         app:cardBackgroundColor="@color/card_background"
         android:layout_marginStart="2dp">
 
-    <RelativeLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/relativeLayout3"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/comment"
-        android:textSize="20dp"
-        android:fontFamily="@font/fg_reg"
-        android:textColor="@color/star_wars_yellow_text"
-        android:gravity="center"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+            <TextView
+                android:id="@+id/comment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/fg_reg"
+                android:gravity="center"
+                android:textColor="@color/star_wars_yellow_text"
+                android:textSize="20dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <ImageView
                 android:id="@+id/arrow"
                 android:layout_width="wrap_content"
-                android:layout_marginLeft="10dp"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
                 android:src="@drawable/ic_baseline_arrow_upward_24"
-                android:layout_below="@+id/comment"
-                android:layout_alignParentLeft="true"/>
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/comment" />
 
-        <TextView
-            android:id="@+id/score"
-            android:layout_below="@id/comment"
-            android:fontFamily="@font/franklin_gothic"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingLeft="5dp"
-            android:layout_toRightOf="@+id/arrow"
-            android:textSize="20dp"
-            android:textColor="@color/clone_red"
-            android:textColorHighlight="@android:color/holo_red_dark" />
+            <TextView
+                android:id="@+id/score"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/franklin_gothic"
+                android:paddingLeft="5dp"
+                android:textColor="@color/clone_red"
+                android:textColorHighlight="@android:color/holo_red_dark"
+                android:textSize="20dp"
+                app:layout_constraintLeft_toRightOf="@+id/arrow"
+                app:layout_constraintTop_toBottomOf="@id/comment" />
 
 
             <TextView
                 android:id="@+id/author"
-                android:paddingRight="5dp"
-                android:layout_below="@id/comment"
-                android:fontFamily="@font/fg_reg"
-                android:textStyle="italic"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
+                android:fontFamily="@font/fg_reg"
+                android:paddingRight="5dp"
+                android:textColor="@android:color/darker_gray"
                 android:textSize="15dp"
-                android:textColor="@android:color/darker_gray" />
-        </RelativeLayout>
+                android:textStyle="italic"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/comment" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </com.google.android.material.card.MaterialCardView>
 
 </LinearLayout>
